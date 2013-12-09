@@ -13,9 +13,10 @@ import java.io.File
 abstract class ProfileArray extends DeliteArray[Double]
 
 /* Application packages */
-trait ProfileApplicationRunner extends ProfileApplication 
+trait ProfileApplicationRunner extends ProfileApplication
   with DeliteApplication with ProfileExp
-trait ProfileApplication extends Profile with ProfileLift {
+  trait ProfileApplication extends Profile with ProfileLift {
+  
   var args: Rep[Array[String]]
   def main(): Unit
 }
@@ -27,7 +28,7 @@ trait ProfileLift extends LiftScala { // allow apps to use all of Scala
 /* IR packages */
 trait Profile extends ScalaOpsPkg with ProfileOps with ProfileArrayOps
 trait ProfileExp extends Profile with ScalaOpsPkgExp with ProfileOpsExp
-  with ProfileArrayOpsExp with DeliteOpsExp with VariantsOpsExp 
+  with ProfileArrayOpsExp with DeliteOpsExp with VariantsOpsExp
   with DeliteAllOverridesExp {
 
   this: DeliteApplication with ProfileApplication with ProfileExp =>
@@ -58,16 +59,16 @@ trait ProfileCodeGenBase extends GenericFatCodegen with codegen.Utils {
   
   override def emitDataStructures(path: String) {
     val s = File.separator
-    val dsRoot = Config.homeDir + s+"dsls"+s+"profiling"+s+"src"+s+
-                 "example"+s+"profiling"+s+"datastruct"+s + this.toString
+    val dsRoot = Config.homeDir + s + "dsls" + s + "profiling" + s + "src" + s +
+                 "example" + s + "profiling" + s + "datastruct" + s + this.toString
 
     copyDataStructures(dsRoot, path, dsmap)
   }
 }
 
-trait ProfileCodeGenScala extends ProfileCodeGenBase with ScalaCodeGenPkg 
+trait ProfileCodeGenScala extends ProfileCodeGenBase with ScalaCodeGenPkg
   with ScalaGenDeliteOps with ScalaGenProfileOps with ScalaGenProfileArrayOps
-  with ScalaGenVariantsOps with ScalaGenDeliteCollectionOps 
+  with ScalaGenVariantsOps with ScalaGenDeliteCollectionOps
   with DeliteScalaGenAllOverrides {
       
   val IR: DeliteApplication with ProfileExp
